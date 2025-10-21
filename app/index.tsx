@@ -1,4 +1,4 @@
-import { Text, View } from "react-native";
+import { Text, TextInput, View } from "react-native";
 
 export default function Index() {
   return (
@@ -9,7 +9,10 @@ export default function Index() {
         alignItems: "center",
       }}
     >
-      <Text>Edit app/index.tsx to edit this screen.</Text>
+      <Text>aplikasi data diri saya</Text>
+      <TextInput placeholder="nama lengkap" style={{ borderWidth: 1, width: "80%", marginVertical: 10, borderRadius: 12, padding: 18 }} />
+      <TextInput placeholder="email" style={{ borderWidth: 1, width: "80%", marginVertical: 10, borderRadius: 12, padding: 18 }} />
+      <TextInput placeholder="alamat" style={{ borderWidth: 1, width: "80%", marginVertical: 10, borderRadius: 12, padding: 18 }} />
     </View>
   );
 }
