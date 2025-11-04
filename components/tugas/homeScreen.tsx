@@ -2,6 +2,7 @@ import { Ionicons } from "@expo/vector-icons";
 import {
   FlatList,
   Image,
+  ImageSourcePropType,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -9,26 +10,11 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-const notes = [
-  {
-    id: 1,
-    image: "@/assets/images/notes-logo.png",
-    title: "Belajar Mobile App",
-    description: "Belajar membuat aplikasi mobile app",
-    date: "29 oktober 2025",
-  },
-  {
-    id: 2,
-    image: "@/assets/images/notes-logo.png",
-    title: "Belajar Backend",
-    description: "Belajar membuat restful api",
-    date: "30 oktober 2025",
-  },
-];
+const notes: Note[] = [];
 
 type Note = {
   id: number;
-  image: string;
+  image: ImageSourcePropType | { uri: string };
   title: string;
   description: string;
   date: string;
@@ -37,12 +23,27 @@ type Note = {
 const NoteItem = ({ item }: { item: Note }) => {
   return (
     <View style={styles.card}>
-      <Image style={{ width: 80, height: 80 }} source={require("@/assets/images/notes-logo.png")} />
+      <Image style={{ width: 80, height: 80 }} source={item.image} />
       <View style={styles.cardContainer}>
         <Text style={styles.cardTitle}>{item.title}</Text>
         <Text style={styles.cardDesc}>{item.description}</Text>
         <Text style={styles.cardDate}>{item.date}</Text>
       </View>
+    </View>
+  );
+};
+
+const EmptyData = () => {
+  return (
+    <View style={styles.emptyContainer}>
+      <Image
+        source={require("@/assets/images/empty.png")}
+        style={styles.emptyImage}
+      />
+      <Text style={styles.emptyTitle}>Add your first note</Text>
+      <Text style={styles.emptyDesc}>
+        Save your thoughts, tasks or inspirations
+      </Text>
     </View>
   );
 };
@@ -58,14 +59,21 @@ export default function HomeScreen() {
         <Text style={styles.kodeinText}>kodein</Text>
         <Text style={styles.notesText}>notes</Text>
       </View>
+
       <View style={styles.content}>
         <FlatList
           data={notes}
           renderItem={({ item }) => <NoteItem item={item} />}
           keyExtractor={(item) => item.id.toString()}
-          contentContainerStyle={{ gap: 10 }}
+          contentContainerStyle={{
+            gap: 10,
+            flexGrow: 1, // agar EmptyData tampil di tengah layar
+            justifyContent: notes.length === 0 ? "center" : "flex-start",
+          }}
+          ListEmptyComponent={<EmptyData />} // <- tampilkan empty state
         />
       </View>
+
       <TouchableOpacity style={styles.fab}>
         <Ionicons name="add" size={32} color={"white"} />
       </TouchableOpacity>
@@ -131,5 +139,25 @@ const styles = StyleSheet.create({
   },
   cardDate: {
     fontSize: 14,
+  },
+
+  emptyContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+    flex: 1,
+  },
+  emptyImage: {
+    width: 200,
+    height: 200,
+    resizeMode: "contain",
+    marginBottom: 10,
+  },
+  emptyTitle: {
+    fontSize: 18,
+    fontWeight: "700",
+  },
+  emptyDesc: {
+    fontSize: 14,
+    color: "#777",
   },
 });
