@@ -27,10 +27,7 @@ export default function DetailScreen() {
         <Text style={styles.appBarTitle}>Detail Screen</Text>
       </View>
       <ScrollView>
-        <Image
-          style={{ width: "100%", height: 250 }}
-          source={note?.image}
-        />
+        <Image style={{ width: "100%", height: 250 }} source={note?.image} />
 
         <View style={styles.content}>
           <Text style={styles.title}>{note?.title}</Text>
@@ -43,8 +40,8 @@ export default function DetailScreen() {
         <TouchableOpacity style={styles.buttonDel}>
           <Text style={{ color: "white" }}>Delete</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.buttonEdit}>
-          <Text style={{ color: "white" }}>Edit</Text>
+        <TouchableOpacity style={styles.buttonEdit} onPress={() => router.push(`/update/${note?.id}`)}>
+          <Text style={{ color: "white" }}>Update</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
